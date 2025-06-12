@@ -1,0 +1,10 @@
+{
+  "RatesByRoute": {
+    "LHR-LAX": 0.028,
+    "LHR-AMS": 0.025,
+    "LHR-JFK": 0.03,
+    "LGW-LAX": 0.027,
+    "LGW-MUC": 0.024,
+    "-": 0.02
+  }
+}
