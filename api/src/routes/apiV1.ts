@@ -5,7 +5,7 @@ import validator from '../validators/flightDetails';
 
 export default (logger: any, calculatePricePoints: Function) => {
   const router = express.Router();
-  console.log('x', calculatePricePoints);
+
   router.post('/price-points', async (req: Request, res: Response): Promise<void> => {
     const requestId = req.get('X-Request-ID') || uuid();
     const startTime = Date.now();
