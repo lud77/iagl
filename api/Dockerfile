@@ -14,12 +14,12 @@ WORKDIR /app
 
 COPY tsconfig.json ./
 
-COPY package*.json ./
 
+COPY package*.json ./
 RUN npm install
 
+COPY config ./config
 COPY src ./src
-
 RUN npm run build
 
 # Second stage only copies the final build
@@ -31,6 +31,7 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install --omit=dev
 
+COPY config ./config
 COPY --from=builder /app/dist ./dist
 
-CMD ["node", "dist/index.js"]
+CMD ["npm", "run", "start:all"]
