@@ -1,4 +1,12 @@
-## Running the app
+## Setting up
+
+Set the global variable:
+
+```
+export IAGL_DB_PASSWORD=Passw0rd!
+```
+
+## Running the full app (be+fe+pg)
 
 From the main folder, run:
 
@@ -22,6 +30,5 @@ db; also included some extra consistency checks (e.g. the flight
 is in the future, arrival should be after departure)
 
 Added endpoints for `/health` (process is responsive) and
-`/ready` (db is reachable).
+`s (db is reachable).
 
-The business logic is in the `src/domain` folder.
