@@ -6,5 +6,11 @@
     "LGW-LAX": 0.027,
     "LGW-MUC": 0.024,
     "-": 0.02
+  },
+  "Database": {
+    "host": "db",
+    "database": "iagl",
+    "user": "api",
+    "port": 5432
   }
 }

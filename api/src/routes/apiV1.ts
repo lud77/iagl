@@ -3,7 +3,7 @@ import { v4 as uuid } from 'uuid';
 import { FlightDetails, PricePointsResponse } from '../types';
 import validator from '../validators/flightDetails';
 
-export default (logger: any, calculatePricePoints: Function) => {
+export default (logger: any, pool: any, calculatePricePoints: Function) => {
   const router = express.Router();
 
   router.post('/price-points', async (req: Request, res: Response): Promise<void> => {

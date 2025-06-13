@@ -5,13 +5,11 @@ import compression from 'compression';
 
 import { rateLimiting, requestSizeLimiting } from './middlewares/security';
 import errorHandlersFactory from './middlewares/errorHandlers';
-import health from './routes/health';
-import ready from './routes/ready';
+import healthRoute from './routes/health';
+import readyRouteFactory from './routes/ready';
 
-export default (logger: any, apiV1: Router) => {
+export default (logger: any, pool: any, apiV1: Router) => {
   const app = express();
-
-  const { notFoundHandler, globalErrorHandler } = errorHandlersFactory(logger);
 
   app.use([
     // Security
@@ -33,12 +31,15 @@ export default (logger: any, apiV1: Router) => {
     express.urlencoded({ extended: true, limit: '10kb' }),
   ]);
 
-  app.use('/health', health);
-  app.use('/ready', ready);
+  app.use('/health', healthRoute);
+
+  const readyRoute = readyRouteFactory(pool);
+  app.use('/ready', readyRoute);
 
   // API routes
   app.use('/api/v1', apiV1);
 
+  const { notFoundHandler, globalErrorHandler } = errorHandlersFactory(logger);
   app.use(notFoundHandler);
   app.use(globalErrorHandler);
 

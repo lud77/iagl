@@ -1,18 +1,20 @@
 import config from 'config';
+import { Pool } from 'pg';
 
 import serverFactory from './server';
 import loggerFactory from './utils/logger';
 import pricePointsServiceFactory from './domain/pricePointsService';
 import apiV1Factory from './routes/apiV1';
 
+const pool = new Pool(config.get('Database'));
 const logger = loggerFactory('price-points-service');
 
 const ratesByRoute: Record<string, number> = config.get('RatesByRoute');
 const { calculatePricePoints } = pricePointsServiceFactory(logger, ratesByRoute);
 
-const apiV1 = apiV1Factory(logger, calculatePricePoints);
+const apiV1 = apiV1Factory(logger, pool, calculatePricePoints);
 
-const server = serverFactory(logger, apiV1);
+const server = serverFactory(logger, pool, apiV1);
 
 const port = process.env.API_PORT || 3000;
 

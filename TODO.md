@@ -14,8 +14,8 @@
 - [x] Install migration tool or build migration script
 - [x] Create PG table and seed with data
 - [ ] Make API load data from PG
-- [ ] Ready endpoint
+- [x] Ready endpoint
 
 - [ ] Init FE project with Vite
-- [ ] Create interface
+- [ ] Create UI
 
