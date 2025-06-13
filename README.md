@@ -30,5 +30,20 @@ db; also included some extra consistency checks (e.g. the flight
 is in the future, arrival should be after departure)
 
 Added endpoints for `/health` (process is responsive) and
-`s (db is reachable).
+`/ready` (db is reachable).
 
+The seeder script creates the db schema and adds the data from
+the config to the database. It starts only when the db is ready
+and exits without doing anythings if the table already exists.
+This makes it idempotent and safe to execute every time the api
+is started.
+
+
+
+
+# Table schema
+
+CREATE TABLE ratesByRoute (
+  route TEXT PRIMARY KEY,
+  rate REAL NOT NULL
+);
