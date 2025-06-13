@@ -1,7 +1,7 @@
 import express from 'express';
 
 const app = express();
-const port = 5000;
+const port = process.env.API_PORT;
 
 app.use(express.json());
 
@@ -10,5 +10,5 @@ app.get('/', (_req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
+  console.log(`API running at http://localhost:${port}`);
 });
