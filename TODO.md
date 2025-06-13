@@ -9,7 +9,7 @@
   - [x] Performance middlewares
   - [x] Health endpoint
   - [x] Validation with joi
-  - [ ] Business logic
+  - [x] Business logic
   - [ ] Ready endpoint
 
 - [ ] Install migration tool or build migration script
