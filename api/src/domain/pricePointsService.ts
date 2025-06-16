@@ -40,7 +40,7 @@ export default (logger: any, fetchRateByRoute: FetchRateByRoute) => {
 
       const aviosPoints = cashToAvios(cashDiscount, rate);
 
-      return { cashDiscount, aviosPoints };
+      return { discountRate, cashDiscount, aviosPoints };
     })
 
     logger.debug('Price points calculated', { route, pricePoints });
