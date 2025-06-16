@@ -3,3 +3,6 @@ postgres-data/*
 api/dist
 api/node_modules
 api/logs
+
+fe/node_modules
+fe/dist
