@@ -1,14 +1,18 @@
 import pricePointsFactory from './pricePointsService';
-import { FlightDetails } from '../types';
+import { FetchRateByRoute, FlightDetails } from '../types';
 
 const mockLogger = {
   info: jest.fn(),
   debug: jest.fn(),
 };
 
-const rates = {
+const rates: Record<string, number> = {
   'LHR-JFK': 0.03,
   '-': 0.02,
+};
+
+const fetchRateByRouteMock = async (route: string): Promise<number | null> => {
+  return rates[route];
 };
 
 const flightData: FlightDetails = {
@@ -20,7 +24,7 @@ const flightData: FlightDetails = {
   Currency: 'GBP',
 };
 
-const service = pricePointsFactory(mockLogger, rates);
+const service = pricePointsFactory(mockLogger, fetchRateByRouteMock);
 
 describe('getRateByRoute', () => {
   test('should return the exact rate when route exists', () => {

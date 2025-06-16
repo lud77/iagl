@@ -18,6 +18,8 @@ export interface PricePointsResponse {
   pricePoints?: PricePoint[];
 }
 
+export type FetchRateByRoute = (route: string) => Promise<number | null>;
+
 export interface ServerError extends Error {
   statusCode?: number;
 }

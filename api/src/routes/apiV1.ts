@@ -38,7 +38,7 @@ export default (logger: any, pool: any, calculatePricePoints: Function) => {
       }
 
       // Calculate price points
-      const pricePoints = calculatePricePoints(flightData);
+      const pricePoints = await calculatePricePoints(flightData);
 
       const processingTime = Date.now() - startTime;
 
