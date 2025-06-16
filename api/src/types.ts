@@ -8,6 +8,7 @@ export interface FlightDetails {
 }
 
 export interface PricePoint {
+  discountRate: number;
   cashDiscount: number;
   aviosPoints: number;
 }
