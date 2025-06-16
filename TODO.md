@@ -16,6 +16,10 @@
 - [ ] Make API load data from PG
 - [x] Ready endpoint
 
-- [ ] Init FE project with Vite
-- [ ] Create UI
-
+- [x] Init FE project with Vite
+- [x] Create UI
+  - [x] Main
+  - [x] Flight details form
+  - [x] Price points table
+- [x] Validation
+- [ ] Integrate with API
