@@ -1,5 +1,5 @@
-import "./FlightDetailsForm.css";
-import type { FlightDetailsExpanded } from "../types";
+import './FlightDetailsForm.css';
+import type { FlightDetailsExpanded } from '../types';
 import { airportCodes } from '../airportCodes';
 import validate from "../validators/flightData";
 
@@ -14,7 +14,7 @@ const FlightDetailsForm = ({ flightDetails, setFlightDetails, onSubmit }: Props)
     const { name, value } = e.target;
     setFlightDetails((prev) => ({
       ...prev,
-      [name]: name === "price" ? parseFloat(value) || 0 : value,
+      [name]: name === 'price' ? parseFloat(value) || 0 : value,
     }));
   };
 

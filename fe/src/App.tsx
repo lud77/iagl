@@ -1,5 +1,5 @@
-import PricePointsTable from './components/PricePointTable';
-import './App.css'
+import PricePointsTable from './components/PricePointsTable';
+import './App.css';
 import type { FlightDetails, FlightDetailsExpanded, PricePoint } from './types';
 import FlightDetailsForm from './components/FlightDetailsForm';
 import { useState } from 'react';
@@ -8,7 +8,7 @@ import { splitDateAndTime, joinDateAndTime } from './utils/DateAndTime';
 const API_URL = "http://localhost:5000/api/v1/price-points";
 
 const App = () => {
-  const [ pricePoints, setPricePoints ] = useState<PricePoint[]>([]);
+  const [ pricePoints, setPricePoints ] = useState<PricePoint[]>([{ discountRate: .1, aviosPoints: 10, cashDiscount: 20 }]);
 
   const now = new Date().toISOString();
   const [currentDate, currentTime] = splitDateAndTime(now, '', '');
@@ -21,7 +21,7 @@ const App = () => {
     ArrivalOnlyDate: currentDate,
     ArrivalOnlyTime: currentTime,
     Price: 0,
-    Currency: '',
+    Currency: 'LIR',
   });
 
   const handleSubmit = async (data: FlightDetailsExpanded) => {

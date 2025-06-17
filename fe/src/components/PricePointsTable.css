@@ -1,0 +1,16 @@
+table.price-points-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+table.price-points-table th {
+  text-align: left;
+  border-bottom: 1px solid #ccc;
+  padding: 0.5rem;
+}
+
+table.price-points-table td {
+  padding: 0.5rem;
+  border-bottom: 1px solid #eee;
+}
