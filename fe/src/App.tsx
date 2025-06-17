@@ -2,7 +2,7 @@ import PricePointsTable from './components/PricePointsTable';
 import './App.css';
 import type { APIResponse, FlightDetails, FlightDetailsExpanded, PricePoint } from './types';
 import FlightDetailsForm from './components/FlightDetailsForm';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { splitDateAndTime, joinDateAndTime } from './utils/DateAndTime';
 
 const API_URL = "http://localhost:5000/api/v1/price-points";
@@ -10,8 +10,10 @@ const API_URL = "http://localhost:5000/api/v1/price-points";
 const App = () => {
   const [ pricePoints, setPricePoints ] = useState<PricePoint[]>([]);
 
-  const now = new Date().toISOString();
-  const [currentDate, currentTime] = splitDateAndTime(now, '', '');
+  const [currentDate, currentTime] = useMemo(() => {
+    const now = new Date().toISOString();
+    return splitDateAndTime(now);
+  }, []);
 
   const [ flightDetails, setFlightDetails ] = useState<FlightDetailsExpanded>({
     DepartureAirportCode: '',
@@ -21,19 +23,23 @@ const App = () => {
     ArrivalOnlyDate: currentDate,
     ArrivalOnlyTime: currentTime,
     Price: 0,
-    Currency: 'LIR',
+    Currency: '',
   });
+
+  const buildFlightDetailsForRequest = (data: FlightDetailsExpanded): FlightDetails => {
+    return {
+      DepartureAirportCode: data.DepartureAirportCode,
+      ArrivalAirportCode: data.ArrivalAirportCode,
+      DepartureTime: joinDateAndTime(data.DepartureOnlyDate, data.DepartureOnlyTime),
+      ArrivalTime: joinDateAndTime(data.ArrivalOnlyDate, data.ArrivalOnlyTime),
+      Price: data.Price,
+      Currency: data.Currency,
+    };
+  };
 
   const handleSubmit = async (data: FlightDetailsExpanded) => {
     try {
-      const flightDetailsForRequest: FlightDetails = {
-        DepartureAirportCode: data.DepartureAirportCode,
-        ArrivalAirportCode: data.ArrivalAirportCode,
-        DepartureTime: joinDateAndTime(data.DepartureOnlyDate, data.DepartureOnlyTime),
-        ArrivalTime: joinDateAndTime(data.ArrivalOnlyDate, data.ArrivalOnlyTime),
-        Price: data.Price,
-        Currency: data.Currency,
-      };
+      const flightDetailsForRequest: FlightDetails = buildFlightDetailsForRequest(data);
 
       const response = await fetch(API_URL, {
         method: 'POST',
@@ -64,7 +70,7 @@ const App = () => {
       <div className="container">
         <div className="flight-details-form-wrapper">
           <FlightDetailsForm
-            flightDetails={flightDetails!}
+            flightDetails={flightDetails}
             setFlightDetails={setFlightDetails}
             onSubmit={handleSubmit} />
         </div>
