@@ -26,12 +26,21 @@ password to access the database.
 From the main folder, run:
 
 ```
-docker-compose up --build
+docker-compose up --build -d
 ```
 
 This will bring up the backend on http://localhost:5000 and
 the frontend on http://localhost:3000. It will also start the
 Postgres database.
+
+
+## Stopping the app
+
+From the main folder, run:
+
+```
+docker-compose down
+```
 
 
 ## API
