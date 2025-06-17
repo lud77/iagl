@@ -56,7 +56,6 @@ const FlightDetailsForm = ({ flightDetails, setFlightDetails, onSubmit }: Props)
           type="date"
           name="DepartureOnlyDate"
           value={flightDetails.DepartureOnlyDate}
-          min={new Date().toISOString().split('T')[0]}
           onChange={handleChange}
           required
         />
@@ -79,7 +78,6 @@ const FlightDetailsForm = ({ flightDetails, setFlightDetails, onSubmit }: Props)
           type="date"
           name="ArrivalOnlyDate"
           value={flightDetails.ArrivalOnlyDate}
-          min={new Date().toISOString().split('T')[0]}
           onChange={handleChange}
           required
         />
