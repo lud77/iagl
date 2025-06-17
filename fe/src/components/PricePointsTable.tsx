@@ -3,11 +3,7 @@ import type { PricePoint } from "../types";
 
 const PricePointsTable = ({ pricePoints, currency }: { pricePoints: PricePoint[], currency: string }) => {
   if (pricePoints.length == 0) return (
-    <table className="price-points-table">
-      <tbody>
-        <tr><td>No data selected.</td></tr>
-      </tbody>
-    </table>
+    <p className="empty-message">No data selected.</p>
   );
 
   return (
