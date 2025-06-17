@@ -1,3 +1,11 @@
+export interface FlightDetails {
+  DepartureAirportCode: string;
+  ArrivalAirportCode: string;
+  DepartureTime: string;
+  ArrivalTime: string;
+  Price: number;
+  Currency: string;
+}
 export interface FlightDetailsExpanded {
   DepartureAirportCode: string;
   ArrivalAirportCode: string;
@@ -10,7 +18,6 @@ export interface FlightDetailsExpanded {
   Price: number;
   Currency: string;
 }
-
 export interface PricePoint {
   discountRate: number;
   cashDiscount: number;

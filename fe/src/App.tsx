@@ -1,23 +1,59 @@
 import PricePointsTable from './components/PricePointTable';
 import './App.css'
-import type { FlightDetailsExpanded, PricePoint } from './types';
+import type { FlightDetails, FlightDetailsExpanded, PricePoint } from './types';
 import FlightDetailsForm from './components/FlightDetailsForm';
 import { useState } from 'react';
+import splitDateAndTime from './utils/splitDateAndTime';
+
+const API_URL = "http://localhost:5000/api/v1/price-points";
 
 const App = () => {
-  const pricePoints: PricePoint[] = [{ discountRate: .2, cashDiscount: 10, aviosPoints: 20 }];
+  const [ pricePoints, setPricePoints ] = useState<PricePoint[]>([]);
+
+  const now = new Date().toISOString();
+  const [currentDate, currentTime] = splitDateAndTime(now, '', '');
+
   const [ flightDetails, setFlightDetails ] = useState<FlightDetailsExpanded>({
     DepartureAirportCode: '',
     ArrivalAirportCode: '',
-    DepartureTime: '',
-    DepartureOnlyDate: '',
-    DepartureOnlyTime: '',
-    ArrivalTime: '',
-    ArrivalOnlyDate: '',
-    ArrivalOnlyTime: '',
+    DepartureTime: now,
+    DepartureOnlyDate: currentDate,
+    DepartureOnlyTime: currentTime,
+    ArrivalTime: now,
+    ArrivalOnlyDate: currentDate,
+    ArrivalOnlyTime: currentTime,
     Price: 0,
     Currency: '',
   });
+
+  const handleSubmit = async (data: FlightDetailsExpanded) => {
+    try {
+      const flightDetailsForRequest: FlightDetails = {
+        DepartureAirportCode: data.DepartureAirportCode,
+        ArrivalAirportCode: data.ArrivalAirportCode,
+        DepartureTime: data.DepartureTime,
+        ArrivalTime: data.ArrivalTime,
+        Price: data.Price,
+        Currency: data.Currency,
+      };
+
+      const response = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(flightDetailsForRequest),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Server responded with ${response.status}`);
+      }
+
+      const result: { pricePoints: PricePoint[] } = await response.json();
+      setPricePoints(result.pricePoints);
+    } catch (err) {
+      console.log('Error while fetching price points', err);
+      setPricePoints([]);
+    }
+  };
 
   return (
     <>
@@ -27,13 +63,10 @@ const App = () => {
           <FlightDetailsForm
             flightDetails={flightDetails!}
             setFlightDetails={setFlightDetails}
-            onSubmit={(flightData: FlightDetailsExpanded): void => {
-              console.log('Flight Data', flightData);
-            }
-          } />
+            onSubmit={handleSubmit} />
         </div>
         <div className="price-points-table-wrapper">
-          <PricePointsTable pricePoints={pricePoints} currency={'FRA'} />
+          <PricePointsTable pricePoints={pricePoints} currency={flightDetails.Currency} />
         </div>
       </div>
     </>

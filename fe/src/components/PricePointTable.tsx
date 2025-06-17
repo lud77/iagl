@@ -3,7 +3,9 @@ import type { PricePoint } from "../types";
 const PricePointsTable = ({ pricePoints, currency }: { pricePoints: PricePoint[], currency: string }) => {
   if (pricePoints.length == 0) return (
     <table style={{ width: "100%", borderCollapse: "collapse", marginTop: "1rem" }}>
+      <tbody>
         <tr><td>No data selected.</td></tr>
+      </tbody>
     </table>
   );
 

@@ -6,33 +6,48 @@ import validate from "../validators/flightData";
 type Props = {
   flightDetails: FlightDetailsExpanded;
   setFlightDetails: React.Dispatch<React.SetStateAction<FlightDetailsExpanded>>;
-  onSubmit: (data: FlightDetailsExpanded, errors: string[]) => void;
+  onSubmit: (data: FlightDetailsExpanded) => void;
 };
 
 type FlightDetailsExpandedKey = keyof FlightDetailsExpanded;
 
+const splitDateAndTime = (dateTime: string, onlyDate: string, onlyTime: string) => {
+  if (dateTime === '') return [onlyDate, onlyTime];
+
+  const [datePart, timePart] = dateTime.split('T');
+  return [
+    datePart, timePart.substring(0, 5)
+  ];
+};
+
 const FlightDetailsForm = ({ flightDetails, setFlightDetails, onSubmit }: Props) => {
   const [ departureDate, departureTime ] =
-    (flightDetails.DepartureTime != '')
-      ? flightDetails.DepartureTime.split('T')
-      : [flightDetails.DepartureOnlyDate, flightDetails.DepartureOnlyTime];
+    splitDateAndTime(
+      flightDetails.DepartureTime,
+      flightDetails.DepartureOnlyDate,
+      flightDetails.DepartureOnlyTime
+    );
 
   const [ arrivalDate, arrivalTime ] =
-    (flightDetails.ArrivalTime != '')
-      ? flightDetails.ArrivalTime.split('T')
-      : [flightDetails.ArrivalOnlyDate, flightDetails.ArrivalOnlyTime];
+    splitDateAndTime(
+      flightDetails.ArrivalTime,
+      flightDetails.ArrivalOnlyDate,
+      flightDetails.ArrivalOnlyTime
+    );
 
   const handleChangeDate = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+    console.log('change date', name, value);
     const relatedOnlyTimeProp = name.replace('Date', 'Time') as FlightDetailsExpandedKey;
     const relatedTimeProp = name.replace('OnlyDate', 'Time') as FlightDetailsExpandedKey;
+    console.log({ [relatedTimeProp]: `${value}T${flightDetails[relatedOnlyTimeProp]}:00.000Z` });
 
     setFlightDetails((prev) => ({
       ...prev,
       [name]: value,
       ...(
           (flightDetails[relatedOnlyTimeProp] != '')
-            ? { [relatedTimeProp]: `${value}T${flightDetails[relatedOnlyTimeProp]}` }
+            ? { [relatedTimeProp]: `${value}T${flightDetails[relatedOnlyTimeProp]}:00.000Z` }
             : {}
         )
     }));
@@ -48,7 +63,7 @@ const FlightDetailsForm = ({ flightDetails, setFlightDetails, onSubmit }: Props)
       [name]: value,
       ...(
           (flightDetails[relatedOnlyDateProp] != '')
-            ? { [relatedTimeProp]: `${flightDetails[relatedOnlyDateProp]}T${value}` }
+            ? { [relatedTimeProp]: `${flightDetails[relatedOnlyDateProp]}T${value}:00.000Z` }
             : {}
         )
     }));
@@ -69,7 +84,7 @@ const FlightDetailsForm = ({ flightDetails, setFlightDetails, onSubmit }: Props)
       alert(errors.join("\n"));  // Replace with nicer UI later
       return;
     }
-    onSubmit(flightDetails, errors);
+    onSubmit(flightDetails);
   };
 
   return (
@@ -100,6 +115,7 @@ const FlightDetailsForm = ({ flightDetails, setFlightDetails, onSubmit }: Props)
           type="date"
           name="DepartureOnlyDate"
           value={departureDate}
+          min={new Date().toISOString().split('T')[0]}
           onChange={handleChangeDate}
           required
         />
@@ -122,6 +138,7 @@ const FlightDetailsForm = ({ flightDetails, setFlightDetails, onSubmit }: Props)
           type="date"
           name="ArrivalOnlyDate"
           value={arrivalDate}
+          min={new Date().toISOString().split('T')[0]}
           onChange={handleChangeDate}
           required
         />
