@@ -3,7 +3,7 @@ import './App.css'
 import type { FlightDetails, FlightDetailsExpanded, PricePoint } from './types';
 import FlightDetailsForm from './components/FlightDetailsForm';
 import { useState } from 'react';
-import splitDateAndTime from './utils/splitDateAndTime';
+import { splitDateAndTime, joinDateAndTime } from './utils/DateAndTime';
 
 const API_URL = "http://localhost:5000/api/v1/price-points";
 
@@ -16,10 +16,8 @@ const App = () => {
   const [ flightDetails, setFlightDetails ] = useState<FlightDetailsExpanded>({
     DepartureAirportCode: '',
     ArrivalAirportCode: '',
-    DepartureTime: now,
     DepartureOnlyDate: currentDate,
     DepartureOnlyTime: currentTime,
-    ArrivalTime: now,
     ArrivalOnlyDate: currentDate,
     ArrivalOnlyTime: currentTime,
     Price: 0,
@@ -31,8 +29,8 @@ const App = () => {
       const flightDetailsForRequest: FlightDetails = {
         DepartureAirportCode: data.DepartureAirportCode,
         ArrivalAirportCode: data.ArrivalAirportCode,
-        DepartureTime: data.DepartureTime,
-        ArrivalTime: data.ArrivalTime,
+        DepartureTime: joinDateAndTime(data.DepartureOnlyDate, data.DepartureOnlyTime),
+        ArrivalTime: joinDateAndTime(data.ArrivalOnlyDate, data.ArrivalOnlyTime),
         Price: data.Price,
         Currency: data.Currency,
       };

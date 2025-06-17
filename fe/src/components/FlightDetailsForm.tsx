@@ -9,66 +9,7 @@ type Props = {
   onSubmit: (data: FlightDetailsExpanded) => void;
 };
 
-type FlightDetailsExpandedKey = keyof FlightDetailsExpanded;
-
-const splitDateAndTime = (dateTime: string, onlyDate: string, onlyTime: string) => {
-  if (dateTime === '') return [onlyDate, onlyTime];
-
-  const [datePart, timePart] = dateTime.split('T');
-  return [
-    datePart, timePart.substring(0, 5)
-  ];
-};
-
 const FlightDetailsForm = ({ flightDetails, setFlightDetails, onSubmit }: Props) => {
-  const [ departureDate, departureTime ] =
-    splitDateAndTime(
-      flightDetails.DepartureTime,
-      flightDetails.DepartureOnlyDate,
-      flightDetails.DepartureOnlyTime
-    );
-
-  const [ arrivalDate, arrivalTime ] =
-    splitDateAndTime(
-      flightDetails.ArrivalTime,
-      flightDetails.ArrivalOnlyDate,
-      flightDetails.ArrivalOnlyTime
-    );
-
-  const handleChangeDate = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    console.log('change date', name, value);
-    const relatedOnlyTimeProp = name.replace('Date', 'Time') as FlightDetailsExpandedKey;
-    const relatedTimeProp = name.replace('OnlyDate', 'Time') as FlightDetailsExpandedKey;
-    console.log({ [relatedTimeProp]: `${value}T${flightDetails[relatedOnlyTimeProp]}:00.000Z` });
-
-    setFlightDetails((prev) => ({
-      ...prev,
-      [name]: value,
-      ...(
-          (flightDetails[relatedOnlyTimeProp] != '')
-            ? { [relatedTimeProp]: `${value}T${flightDetails[relatedOnlyTimeProp]}:00.000Z` }
-            : {}
-        )
-    }));
-  };
-
-  const handleChangeTime = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    const relatedOnlyDateProp = name.replace('Time', 'Date') as FlightDetailsExpandedKey;
-    const relatedTimeProp = name.replace('OnlyTime', 'Time') as FlightDetailsExpandedKey;
-
-    setFlightDetails((prev) => ({
-      ...prev,
-      [name]: value,
-      ...(
-          (flightDetails[relatedOnlyDateProp] != '')
-            ? { [relatedTimeProp]: `${flightDetails[relatedOnlyDateProp]}T${value}:00.000Z` }
-            : {}
-        )
-    }));
-  };
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFlightDetails((prev) => ({
@@ -114,9 +55,9 @@ const FlightDetailsForm = ({ flightDetails, setFlightDetails, onSubmit }: Props)
         <input
           type="date"
           name="DepartureOnlyDate"
-          value={departureDate}
+          value={flightDetails.DepartureOnlyDate}
           min={new Date().toISOString().split('T')[0]}
-          onChange={handleChangeDate}
+          onChange={handleChange}
           required
         />
       </label>
@@ -126,8 +67,8 @@ const FlightDetailsForm = ({ flightDetails, setFlightDetails, onSubmit }: Props)
         <input
           type="time"
           name="DepartureOnlyTime"
-          value={departureTime}
-          onChange={handleChangeTime}
+          value={flightDetails.DepartureOnlyTime}
+          onChange={handleChange}
           required
         />
       </label>
@@ -137,9 +78,9 @@ const FlightDetailsForm = ({ flightDetails, setFlightDetails, onSubmit }: Props)
         <input
           type="date"
           name="ArrivalOnlyDate"
-          value={arrivalDate}
+          value={flightDetails.ArrivalOnlyDate}
           min={new Date().toISOString().split('T')[0]}
-          onChange={handleChangeDate}
+          onChange={handleChange}
           required
         />
       </label>
@@ -149,8 +90,8 @@ const FlightDetailsForm = ({ flightDetails, setFlightDetails, onSubmit }: Props)
         <input
           type="time"
           name="ArrivalOnlyTime"
-          value={arrivalTime}
-          onChange={handleChangeTime}
+          value={flightDetails.ArrivalOnlyTime}
+          onChange={handleChange}
           required
         />
       </label>

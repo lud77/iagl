@@ -7,4 +7,9 @@ const splitDateAndTime = (dateTime: string, onlyDate: string, onlyTime: string) 
   ];
 };
 
-export default splitDateAndTime;
+const joinDateAndTime = (datePart: string, timePart: string) => `${datePart}T${timePart}:00.000Z`;
+
+export {
+  splitDateAndTime,
+  joinDateAndTime
+};

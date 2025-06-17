@@ -9,10 +9,8 @@ export interface FlightDetails {
 export interface FlightDetailsExpanded {
   DepartureAirportCode: string;
   ArrivalAirportCode: string;
-  DepartureTime: string;
   DepartureOnlyDate: string;
   DepartureOnlyTime: string;
-  ArrivalTime: string;
   ArrivalOnlyDate: string;
   ArrivalOnlyTime: string;
   Price: number;
