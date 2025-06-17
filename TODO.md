@@ -22,4 +22,4 @@
   - [x] Flight details form
   - [x] Price points table
 - [x] Validation
-- [ ] Integrate with API
+- [x] Integrate with API
