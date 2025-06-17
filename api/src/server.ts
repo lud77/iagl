@@ -10,12 +10,19 @@ import readyRouteFactory from './routes/ready';
 
 export default (logger: any, pool: any, apiV1: Router) => {
   const app = express();
+  const originWhitelist = process.env.ALLOWED_ORIGINS?.split(',');
 
   app.use([
     // Security
     helmet(),
     cors({
-      origin: process.env.ALLOWED_ORIGINS?.split(','),
+      origin: (origin, callback) => {
+        if (!origin || originWhitelist?.includes(origin!)) {
+          callback(null, true)
+        } else {
+          callback(new Error('Not allowed by CORS'))
+        }
+      },
       credentials: true,
       methods: ['GET', 'POST'],
       allowedHeaders: ['Content-Type', 'Authorization', 'X-Request-ID']
@@ -30,6 +37,8 @@ export default (logger: any, pool: any, apiV1: Router) => {
     express.json({ limit: '10kb' }),
     express.urlencoded({ extended: true, limit: '10kb' }),
   ]);
+
+  app.options('/api/v1/price-points', cors());
 
   app.use('/health', healthRoute);
 
