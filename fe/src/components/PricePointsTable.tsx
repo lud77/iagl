@@ -20,8 +20,8 @@ const PricePointsTable = ({ pricePoints, currency }: { pricePoints: PricePoint[]
         </tr>
       </thead>
       <tbody>
-        {pricePoints.map(({ discountRate, cashDiscount, aviosPoints }) => (
-          <tr key={discountRate}>
+        {pricePoints.map(({ discountRate, cashDiscount, aviosPoints }, i) => (
+          <tr key={i}>
             <td>{Math.round(discountRate * 100)}%</td>
             <td>
               {new Intl.NumberFormat(undefined, { style: "currency", currency }).format(cashDiscount)}
