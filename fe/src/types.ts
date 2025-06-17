@@ -21,3 +21,8 @@ export interface PricePoint {
   cashDiscount: number;
   aviosPoints: number;
 }
+export interface APIResponse {
+  success: boolean;
+  pricePoints?: PricePoint[];
+  error?: string;
+}

@@ -1,6 +1,6 @@
 import PricePointsTable from './components/PricePointsTable';
 import './App.css';
-import type { FlightDetails, FlightDetailsExpanded, PricePoint } from './types';
+import type { APIResponse, FlightDetails, FlightDetailsExpanded, PricePoint } from './types';
 import FlightDetailsForm from './components/FlightDetailsForm';
 import { useState } from 'react';
 import { splitDateAndTime, joinDateAndTime } from './utils/DateAndTime';
@@ -45,8 +45,13 @@ const App = () => {
         throw new Error(`Server responded with ${response.status}`);
       }
 
-      const result: { pricePoints: PricePoint[] } = await response.json();
-      setPricePoints(result.pricePoints);
+      const result: APIResponse = await response.json();
+
+      if (!result.success) {
+        alert(result.error || 'Unknown Error');
+      }
+
+      setPricePoints(result.pricePoints!);
     } catch (err) {
       console.log('Error while fetching price points', err);
       setPricePoints([]);
