@@ -8,7 +8,7 @@ import { splitDateAndTime, joinDateAndTime } from './utils/DateAndTime';
 const API_URL = "http://localhost:5000/api/v1/price-points";
 
 const App = () => {
-  const [ pricePoints, setPricePoints ] = useState<PricePoint[]>([{ discountRate: .1, aviosPoints: 10, cashDiscount: 20 }]);
+  const [ pricePoints, setPricePoints ] = useState<PricePoint[]>([]);
 
   const now = new Date().toISOString();
   const [currentDate, currentTime] = splitDateAndTime(now, '', '');
