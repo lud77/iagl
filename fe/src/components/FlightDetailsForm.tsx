@@ -14,7 +14,7 @@ const FlightDetailsForm = ({ flightDetails, setFlightDetails, onSubmit }: Props)
     const { name, value } = e.target;
     setFlightDetails((prev) => ({
       ...prev,
-      [name]: name === 'price' ? parseFloat(value) || 0 : value,
+      [name]: name === 'Price' ? parseFloat(value) || 0 : value,
     }));
   };
 
