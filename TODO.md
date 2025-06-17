@@ -13,7 +13,7 @@
 
 - [x] Install migration tool or build migration script
 - [x] Create PG table and seed with data
-- [ ] Make API load data from PG
+- [x] Make API load data from PG
 - [x] Ready endpoint
 
 - [x] Init FE project with Vite
