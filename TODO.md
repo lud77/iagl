@@ -23,3 +23,4 @@
   - [x] Price points table
 - [x] Validation
 - [x] Integrate with API
+- [ ] Simplify date-time logic in App.tsx and FlightDetailsForm.tsx
