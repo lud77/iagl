@@ -3,7 +3,10 @@ import config from 'config';
 
 console.log('Seeder starting...');
 
-if (process.env.IAGL_DB_PASSWORD == null) process.exit(1);
+if (process.env.IAGL_DB_PASSWORD == null) {
+  console.log('IAGL_DB_PASSWORD env is not set! Exiting...');
+  process.exit(1);
+}
 
 const waitForDb = async (maxRetries = 10) => {
   let retries = 0;
