@@ -101,7 +101,7 @@ const FlightDetailsForm = ({ flightDetails, setFlightDetails, onSubmit }: Props)
 
       <label>
         Currency:
-        <select name="Currency" value={flightDetails.Currency} onChange={handleChange}>
+        <select name="Currency" value={flightDetails.Currency} onChange={handleChange} required>
           <option value=""></option>
           <option value="GBP">GBP</option>
           <option value="EUR">EUR</option>
