@@ -1,20 +1,3 @@
-## Setting up
-
-Set the global variable:
-
-```
-export IAGL_DB_PASSWORD=Passw0rd!
-```
-
-## Running the full app (be+fe+pg)
-
-From the main folder, run:
-
-```
-docker-compose up --build
-```
-
-
 ## Notes
 
 To make things easier to manage I've used a monorepo approach.
@@ -26,13 +9,48 @@ to start and stop backend, frontend and postgress server with
 one command.
 
 
+## Setting up
+
+Set the global variable:
+
+```
+export IAGL_DB_PASSWORD=Passw0rd!
+```
+
+The password you set in this variable will be set as the
+password to access the database.
+
+
+## Running the full app (be+fe+pg)
+
+From the main folder, run:
+
+```
+docker-compose up --build
+```
+
+This will bring up the backend on http://localhost:5000 and
+the frontend on http://localhost:3000. It will also start the
+Postgres database.
+
+
 ## API
 
 Built with `Express` and `Typescript`.
 
-Given the request for production-readiness at the application
+To run the tests enter the /api folder and do:
+
+```
+npm run test
+```
+
+The backend has an endpoint `POST /api/v1/price-points` that
+allows to submit flight data according to the spec and returns
+the price points.
+
+Given the requirement for production-readiness at the application
 level, I've added the following middlewares:
-- rate limited to 50 requests per 10 minutes
+- rate limited to 50 requests per 10 minutes from an IP
 - request size limited to 2kb
 - cors enabled
 - helmet for security
@@ -84,3 +102,20 @@ Built with `Vite`, `React` and `Typescript`.
 Served using `Nginx`, as given the simplicity of the UI I've
 decided not to use SSR.
 
+To run the tests enter the /api folder and do:
+
+```
+npm run test
+```
+
+The UI shows a form where the flight data can be entered, and a
+button that will trigger a POST to the api endpoint `/price-points`
+and display the result if it's valid.
+
+The validation on the frontend is implemented without libraries,
+with a simple hand-written function.
+
+The logic to handle the date and time pickers is probably the most
+complex part of the fe, even though I've now simplified it. This is
+because I wanted to avoid the datetime-local input element that
+sometimes causes problems with some browsers.
