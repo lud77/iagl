@@ -128,3 +128,12 @@ The logic to handle the date and time pickers is probably the most
 complex part of the fe, even though I've now simplified it. This is
 because I wanted to avoid the datetime-local input element that
 sometimes causes problems with some browsers.
+
+Known issues:
+  - client side logging should be replaced with remote logging,
+    but that would require an additional service as adding the
+    route to the `API` service would violate its responsibility
+    boundaries
+  - timezone is not handled, the system assumes all the dates and
+    times are local
+
