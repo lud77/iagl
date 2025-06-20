@@ -27,27 +27,27 @@ const flightData: FlightDetails = {
 const service = pricePointsFactory(mockLogger, fetchRateByRouteMock);
 
 describe('getRateByRoute', () => {
-  test('should return the rate when route exists', async () => {
+  it('should return the rate when route exists', async () => {
     expect(await service.getRateByRoute('LHR-JFK')).toBe(0.03);
   });
 
-  test('should return the fallback rate when route is unknown', async () => {
+  it('should return the fallback rate when route is unknown', async () => {
     expect(await service.getRateByRoute('XXX-YYY')).toBe(0.02);
   });
 });
 
 describe('cashToAvios', () => {
-  test('should compute ceiling of cash divided by rate', async () => {
+  it('should compute ceiling of cash divided by rate', async () => {
     expect(await service.cashToAvios(30, 0.03)).toBe(1000);
   });
 
-  test('should round up even for non-integer result', async () => {
+  it('should round up even for non-integer result', async () => {
     expect(await service.cashToAvios(29.9, 0.03)).toBe(997);
   });
 });
 
 describe('calculatePricePoints', () => {
-  test('should return four price points with correct discount and Avios', async () => {
+  it('should return four price points with correct discount and Avios', async () => {
     expect(await service.calculatePricePoints(flightData)).toEqual([
       { discountRate: .2, cashDiscount: 20, aviosPoints: 667 },
       { discountRate: .5, cashDiscount: 50, aviosPoints: 1667 },
@@ -56,7 +56,7 @@ describe('calculatePricePoints', () => {
     ]);
   });
 
-  test('should log calculation steps with route and results', async () => {
+  it('should log calculation steps with route and results', async () => {
     await service.calculatePricePoints(flightData);
     expect(mockLogger.info).toHaveBeenCalledWith('Calculating price points', {
       route: 'LHR-JFK',
