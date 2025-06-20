@@ -8,32 +8,28 @@ const sampleData = [
 ];
 
 describe('PricePointsTable', () => {
-  it('shows "No data selected" when pricePoints is empty', () => {
+  it('should show "No data selected" when pricePoints is empty', () => {
     render(<PricePointsTable pricePoints={[]} currency="USD" />);
     expect(screen.getByText(/No data selected/i)).not.toBeNull();
   });
 
-  it('renders table headers correctly', () => {
-    render(<PricePointsTable pricePoints={sampleData} currency="USD" />);
+  it('should render table headers correctly', () => {
+    render(<PricePointsTable pricePoints={sampleData} currency="GBP" />);
     expect(screen.getByText(/Discount %/i)).not.toBeNull();
     expect(screen.getByText(/Cash Discount/i)).not.toBeNull();
     expect(screen.getByText(/Avios/i)).not.toBeNull();
   });
 
-  it('renders each price point row with correct data', () => {
-    render(<PricePointsTable pricePoints={sampleData} currency="USD" />);
+  it('should render each price point row with correct data', () => {
+    render(<PricePointsTable pricePoints={sampleData} currency="EUR" />);
 
-    // 10% and 20% should appear
     expect(screen.getByText('10%')).not.toBeNull();
     expect(screen.getByText('20%')).not.toBeNull();
 
-    // Cash amounts formatted as currency
+    expect(screen.getByText(/€50/)).not.toBeNull(); // cash amounts
+    expect(screen.getByText(/€100/)).not.toBeNull();
 
-    expect(screen.getByText(/\$50/)).not.toBeNull();
-    expect(screen.getByText(/\$100/)).not.toBeNull();
-
-    // Avios
-    expect(screen.getByText('12,000')).not.toBeNull();
+    expect(screen.getByText('12,000')).not.toBeNull(); // point cost
     expect(screen.getByText('20,000')).not.toBeNull();
   });
 });

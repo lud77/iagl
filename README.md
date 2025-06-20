@@ -136,4 +136,3 @@ Known issues:
     boundaries
   - timezone is not handled, the system assumes all the dates and
     times are local
-
